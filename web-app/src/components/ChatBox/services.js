@@ -9,6 +9,7 @@ import {
 } from '../../data/services/api';
 
 export const useMessages = (id, ref) => {
+  console.log('TEST')
   let channelId = id;
   const [messages, setMessages] = useState([]);
   const [contentValue, setContentValue] = useState('');
