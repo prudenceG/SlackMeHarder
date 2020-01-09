@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - 'node'
 before_install: 
-  - npm install npm@latest -g
+  - npm i react-scripts
