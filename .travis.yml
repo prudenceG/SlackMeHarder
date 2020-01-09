@@ -7,4 +7,10 @@ deploy:
   - provider: heroku
     api-key:
       secure: $HEROKU_API_KEY
-    app: slackmeharder-test
+    app: slacmeharder-test
+    on:
+      tags: false
+    
+    app: slackmeharder-test-production
+    on:
+      tags: true
