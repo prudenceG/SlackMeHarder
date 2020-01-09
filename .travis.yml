@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - 'node'
 before_install: 
-  - npm i react-scripts
+  - npm install && cd web-app && npm install
