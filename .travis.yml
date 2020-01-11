@@ -9,12 +9,10 @@ deploy:
       secure: $HEROKU_API_KEY
     app: slackmeharder-test
     on
-      tags: false
-      all_branches: true
+      condition: $TRAVIS_TAG=""
   - provider: heroku
     api-key:
       secure: $HEROKU_API_KEY
     app: slackmeharder-test-production
     on:
       tags: true
-      all_branches: true
