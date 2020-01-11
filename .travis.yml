@@ -13,8 +13,8 @@ deploy:
       branch: master
   - provider: heroku
     api-key:
-      secure: $HEROKU_API_KEY
+      secure: $HEROKU_API_KEY_PROD
     skip_cleanup: true
-    app: slackmeharder-test-production
+    app: slackmeharder-production
     on:
       tags: true
