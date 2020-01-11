@@ -6,13 +6,13 @@ before_install:
 deploy:
   - provider: heroku
     api-key:
-      secure: $HEROKU_API_KE
+      secure: $HEROKU_API_KEY
     app: slackmeharder-test
     on:
       branch: master
   - provider: heroku
     api-key:
-      secure: $HEROKU_API_KEY
+      secure: $HEROKU_API_KEY_PROD
     app: slackmeharder-production
     on:
       tags: true
