@@ -17,14 +17,19 @@ const notifyClienOfNewChannel = (socket, channel) => {
   socket.emit('sendChannelToClient', channel);
 };
 
-const notifyClientToTriggerAuth = (socket, data) => {
-  socket.emit('shouldTriggerAuth', data);
-};
+const notifyClientMessageHasBeenUpdated = (socket, message) => {
+  socket.emit('messageHasBeenUpdated', message)
+}
+
+const notifyClientMessageHasBeenDeleted = (socket) => {
+  socket.emit('messageHasBeenDeleted');
+}
 
 module.exports = {
   // getWebSocket,
   useSocket,
   notifyClientOfNewMessage,
   notifyClienOfNewChannel,
-  notifyClientToTriggerAuth,
+  notifyClientMessageHasBeenUpdated,
+  notifyClientMessageHasBeenDeleted,
 };

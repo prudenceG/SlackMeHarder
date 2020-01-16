@@ -6,6 +6,7 @@ import {
   postMessages,
   putMessage,
   whoAmI,
+  deleteOneMessage,
 } from '../../data/services/api';
 
 export const useMessages = (id, ref) => {
@@ -31,8 +32,16 @@ export const useMessages = (id, ref) => {
     socket.on('sendMessageToClient', async data => {
       await _fetchMessages(channelId);
       scrollToBottom(ref, true)
-      console.log('message from serv', data);
+      console.log('message created from serv', data);
     });
+    socket.on('messageHasBeenUpdated', async data => {
+      await _fetchMessages(channelId);
+      console.log('message updated from serv', data);
+    })
+    socket.on('messageHasBeenDeleted', async () => {
+      await _fetchMessages(channelId);
+      console.log('message deleted from serv');
+    })
   };
 
   const scrollToBottom = (refToScroll, isSmoothly) => {
@@ -45,6 +54,10 @@ export const useMessages = (id, ref) => {
 
   const updateMessage = async (message) => {
     await putMessage({...message, content: updateContentValue});
+  }
+
+  const deleteMessage = async id => {
+    await deleteOneMessage(id);
   }
 
   const _getUser = async () => {
@@ -80,5 +93,6 @@ export const useMessages = (id, ref) => {
     user,
     updateContentValue,
     setUpdateContentValue,
+    deleteMessage,
   };
 };
