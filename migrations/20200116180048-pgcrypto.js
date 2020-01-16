@@ -16,7 +16,7 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function(db) {
   return db.runSql(`
-    CREATE EXTENSION pgcrypto
+    CREATE EXTENSION IF NOT EXISTS pgcrypto
   `);
 };
 
