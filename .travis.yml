@@ -7,12 +7,12 @@ deploy:
   - provider: heroku
     api-key:
       secure: $HEROKU_API_KEY
-    app: slackmeharder-test
+    app: wild-chat-staging
     on:
       branch: master
   - provider: heroku
     api-key:
       secure: $HEROKU_API_KEY
-    app: slackmeharder-test-production
+    app: wild-chat
     on:
       tags: true

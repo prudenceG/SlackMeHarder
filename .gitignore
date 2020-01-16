@@ -1,3 +1,4 @@
 node_modules
 .env
 /web-app/build
+.DS_Store
