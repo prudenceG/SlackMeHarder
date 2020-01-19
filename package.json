@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd web-app && npm test",
+    "test": "jest --testTimeout=10000",
     "start": "nodemon server.js",
     "migration:create": "npx db-migrate create",
     "migration:run": "npx db-migrate up --config db-migrate-config.js --env pg",
@@ -27,6 +27,18 @@
     "pg": "^7.12.1",
     "pg-connection-string": "^2.1.0",
     "pg-promise": "^9.3.3",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.9.0",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
