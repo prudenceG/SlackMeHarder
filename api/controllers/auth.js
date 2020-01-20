@@ -1,32 +1,41 @@
-const dataLayer = require('../data-layer');
+const authService = require('../services/auth');
 
 const signup = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const user = await dataLayer.findUserByUsername(username);
-  if (user) {
-    res.status(409).send('Username already taken');
-  } else {
-    await dataLayer.createUser(username, password);
-    const userCreated = await dataLayer.findUserByUsername(username);
-    await dataLayer.updateSession(req.cookies.sessionId, userCreated.id);
-    res.status(201).send(username);
+  const sessionId = req.cookies.sessionId;
+  try {
+    const user = await authService.signup(username, password, sessionId);
+    res.status(201).send(user.username);
+  } catch(error) {
+    res.status(400).send(error.message);
   }
 };
 
 const signin = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const user = await dataLayer.verifyUser(username, password);
-  if (user) {
-    await dataLayer.updateSession(req.cookies.sessionId, user.id);
+  const sessionId = req.cookies.sessionId;
+  try {
+    await authService.signIn(username, password, sessionId);
     res.status(201).send('connected');
-  } else {
-    res.status(404).send('User not found');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const whoAmI = async (req, res) => {
+  const sessionId = req.cookies.sessionId;
+  try {
+    const user = await authService.whoAmI(sessionId)
+    res.status(201).send(user);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 };
 
 module.exports = {
   signup,
   signin,
+  whoAmI
 };

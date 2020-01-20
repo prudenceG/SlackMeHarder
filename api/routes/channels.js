@@ -1,14 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const channelsController = require('../controllers/channels');
 
-const {
-  createChannel,
-  getChannels,
-  getMessageByChannel,
-} = require('../controllers/channels');
+const router = Router();
 
-router.post('/', createChannel);
-router.get('/', getChannels);
-router.get(`/:id/messages`, getMessageByChannel);
+router.post('/', channelsController.createChannel);
+router.get('/', channelsController.getChannels);
 
 module.exports = router;

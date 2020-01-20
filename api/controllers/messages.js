@@ -1,40 +1,49 @@
-const dataLayer = require('../data-layer');
-const webSocket = require('../webSocket');
+const messagesService = require('./../services/messages');
+
+const getMessagesByChannel = async (req, res) => {
+  const channelId = req.query.channel_id;
+  try {
+      const messages = await messagesService.getMessageByChannel(channelId);
+      res.status(200).send(messages);
+  } catch(error) {
+      res.status(400).json({message: error.message});
+  }
+}
 
 const storeMessage = async (req, res) => {
-  const content = req.body.content;
-  const channelId = req.body.channel_id;
-  const session = await dataLayer.findSessionById(req.cookies.sessionId);
-  const message = await dataLayer.storeMessage(
-    content,
-    channelId,
-    session.user_id
-  );
-  webSocket.notifyClientOfNewMessage(req.socket, content);
-  res.status(201).send(message);
+  const { content, channelId} = req.body;
+  const sessionId = req.cookies.sessionId;
+  const socket = req.socket;
+  try {
+      await messagesService.storeMessage(content, channelId, sessionId, socket);
+      res.status(201).send({message: 'Message has been successfuly created'});
+  } catch(error) {
+      res.status(400).json({message: error.message});
+  }
 };
 
 const updateMessage = async (req, res) => {
-  const { content, userId } = req.body.message;
+  const message = req.body.message;
   const id = req.params.id;
-  const session = await dataLayer.findSessionById(req.cookies.sessionId);
-  
-  if (userId === session.user_id) {
-    await dataLayer.updateOneMessage(content, id);
-    webSocket.notifyClientMessageHasBeenUpdated(req.socket, content);
-    res.status(201).send('a message has been updated');
-  }
+  const sessionId = req.cookies.sessionId;
+  const socket = req.socket;
+  try {
+      await messagesService.updateMessage(id, message, sessionId, socket);
+      res.status(201).send('a message has been updated');
+  } catch(error) {
+      res.status(400).json({message: error.message});
+  }    
 }
 
 const deleteMessage = async (req, res) => {
   const id = req.params.id;
-  const session = await dataLayer.findSessionById(req.cookies.sessionId);
-  const message = await dataLayer.getOneMessage(id);
-
-  if (message.app_user_id === session.user_id) {
-    await dataLayer.deleteOneMessage(id);
-    webSocket.notifyClientMessageHasBeenDeleted(req.socket);
-    res.status(200).send('a message has been deleted');
+  const sessionId = req.cookies.sessionId;
+  const socket = req.socket;
+  try {
+      await messagesService.deleteMessage(id, sessionId, socket);
+      res.status(200).json({message: 'Message has been successfuly deleted'});
+  } catch(error) {
+      res.status(400).json({message: error.message});
   }
 }
 
@@ -42,4 +51,5 @@ module.exports = {
   storeMessage,
   updateMessage,
   deleteMessage,
+  getMessagesByChannel,
 };

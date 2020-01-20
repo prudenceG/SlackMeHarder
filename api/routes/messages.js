@@ -1,10 +1,11 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const messagesController = require('./../controllers/messages');
 
-const { storeMessage, updateMessage, deleteMessage } = require('../controllers/messages');
+const router = Router();
 
-router.post('/', storeMessage);
-router.put('/:id', updateMessage);
-router.delete('/:id', deleteMessage);
+router.get('/', messagesController.getMessagesByChannel);
+router.post('/', messagesController.storeMessage);
+router.put('/:id', messagesController.updateMessage);
+router.delete('/:id', messagesController.deleteMessage);
 
 module.exports = router;
