@@ -18,7 +18,7 @@ export const createChannel = async (name: string): Promise<void> => {
 // Messages
 
 export const fetchMessages = async (id: number): Promise<Message[]> => {
-  const response = await axios.get(`/api/channels/${id}/messages`);
+  const response = await axios.get(`/api/messages?channel_id=${id}`);
   const messages = response.data;
 
   return messages;
@@ -50,7 +50,7 @@ export const signUp = async (username: string, password: string): Promise<void> 
 };
 
 export const whoAmI = async (): Promise<User> => {
-  const response = await axios.get(`/api/whoami`);
+  const response = await axios.get(`/api/auth/whoami`);
   const user = response.data;
 
   return user;
