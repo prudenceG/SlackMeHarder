@@ -36,7 +36,7 @@ export const useChannels = () => {
         setShouldTriggerAuth(false);
       })
       .catch(function(error) {
-        if (error.response.status === 404) {
+        if (error.response.data === 'User not found') {
           setShouldTriggerAuth(true);
         }
       });

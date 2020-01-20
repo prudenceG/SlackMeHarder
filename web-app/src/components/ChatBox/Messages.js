@@ -35,6 +35,10 @@ function Messages(props) {
     await scrollToBottom(messagesListEnd, true);
   };
 
+  const _setCurrentMessageContent = e => {
+    setContentValue(e.target.value);
+  };
+
   const _updateMyMessage = async (message) => {
     setUpdateContentValue(message.content);
     setIsEditMode(!isEditMode);
@@ -49,10 +53,6 @@ function Messages(props) {
       setIsEditMode(false);
     }
   }
-  
-  const _setCurrentMessageContent = e => {
-    setContentValue(e.target.value);
-  };
 
   const _setUpdateContentValue = e => {
     setUpdateContentValue(e.target.value)

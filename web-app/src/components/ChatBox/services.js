@@ -10,7 +10,6 @@ import {
 } from '../../data/services/api';
 
 export const useMessages = (id, ref) => {
-  console.log('TEST TEST TEST')
   let channelId = id;
   const [messages, setMessages] = useState([]);
   const [contentValue, setContentValue] = useState('');
@@ -57,7 +56,7 @@ export const useMessages = (id, ref) => {
   }
 
   const deleteMessage = async id => {
-    await deleteOneMessage(id);
+      await deleteOneMessage(id);
   }
 
   const _getUser = async () => {
