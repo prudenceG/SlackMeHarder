@@ -1,10 +1,5 @@
 const pg = require('pg');
-const path = require('path');
-
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
-
 const databaseUrl = process.env.DATABASE_URL;
-
 const pool = new pg.Pool({
   connectionString: databaseUrl,
 });
@@ -15,7 +10,7 @@ const createChannel = async name => {
   try {
     await pool.query(`INSERT INTO channel (name) VALUES ($1)`, [name]);
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -24,7 +19,7 @@ const getChannels = async () => {
     const channelList = await pool.query(`SELECT * from channel`);
     return channelList.rows;
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -38,24 +33,26 @@ const storeMessage = async (content, channelId, userId) => {
     );
     return message.rows[0];
   } catch (error) {
-    console.log('error : ', error);
+    throw new Error(error);
   }
 };
 
 const getMessageByChannel = async id => {
   try {
     const messagesList = await pool.query(
-      `SELECT message.*, app_user.username
+      `SELECT message.*, 
+      app_user.username,
+      app_user.created_at AS app_user_created_at
       FROM message
-      LEFT JOIN app_user
+      JOIN app_user
       ON message.app_user_id = app_user.id
       WHERE message.channel_id = $1
-      ORDER BY message.id`,
+      ORDER BY message.created_at`,
       [id]
     );
     return messagesList.rows;
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -64,10 +61,10 @@ const getOneMessage = async id => {
     const message = await pool.query(
       `SELECT * FROM message WHERE id = $1`, [id]
     );
+  
     return message.rows[0];
-
-  } catch(error) {
-    console.log('error', error);
+  } catch (error) {
+    throw new Error(error);
   }
 }
 
@@ -77,7 +74,7 @@ const updateOneMessage = async (content, id) => {
       `UPDATE message SET content = $1 WHERE id = $2`, [content, id]
     );
   } catch(error) {
-    console.log('error:', error);
+    throw new Error(error);
   }
 }
 
@@ -86,8 +83,8 @@ const deleteOneMessage = async (id) => {
     await pool.query(
       `DELETE FROM message WHERE id = $1`, [id]
     );
-  } catch(error) {
-    console.log('error', error);
+  } catch (error) {
+    throw new Error(error);
   }
 }
 
@@ -100,7 +97,7 @@ const createUser = async (username, password) => {
       [username, password]
     );
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -110,9 +107,10 @@ const findUserByUsername = async username => {
       `SELECT * from app_user WHERE username = $1`,
       [username]
     );
+
     return queryResult.rows[0];
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -122,9 +120,10 @@ const findUserById = async id => {
       `SELECT * from app_user WHERE id = $1`,
       [id]
     );
+
     return queryResult.rows[0];
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -134,9 +133,10 @@ const verifyUser = async (username, password) => {
       `SELECT * FROM app_user WHERE username=$1 AND password = crypt($2,password)`,
       [username, password]
     );
+
     return queryResult.rows[0];
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -148,9 +148,10 @@ const createSession = async (sessionId, user_id) => {
       `INSERT INTO user_session (sessionId, user_id) VALUES ($1, $2)`,
       [sessionId, user_id]
     );
+
     return user.rows[0];
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -161,7 +162,7 @@ const updateSession = async (sessionId, user_id) => {
       [user_id, sessionId]
     );
   } catch (error) {
-    console.log('error: ', error);
+    throw new Error(error);
   }
 };
 
@@ -171,9 +172,10 @@ const findSessionById = async sessionId => {
       `SELECT * FROM user_session WHERE sessionId=$1`,
       [sessionId]
     );
+  
     return session.rows[0];
   } catch (error) {
-    console.log('error', error);
+    throw new Error(error);
   }
 };
 
