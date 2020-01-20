@@ -2,23 +2,17 @@ const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
 const cookieParser = require('cookie-parser');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-
+const path = require('path');
 const webSocket = require('./api/webSocket');
 const { setSessionId } = require('./api/utils/setSessionId');
 const { authChecker } = require('./api/utils/checkAuth');
-
-const routerChannels = require('./api/routes/channels');
-const routerMessages = require('./api/routes/messages');
-const routerAuth = require('./api/routes/auth');
-const routerWhoAmI = require('./api/routes/whoAmI');
+const authRouter = require('./api/routes/auth');
+const channelsRouter = require('./api/routes/channels');
+const messagesRouter = require('./api/routes/messages');
 
 const app = express();
-
 app.use(express.static(path.join(__dirname, 'web-app', 'build')));
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use(
@@ -26,9 +20,9 @@ app.use(
     extended: true,
   })
 );
-
 app.use(cookieParser());
 app.use(setSessionId);
+app.use('/api/auth', authRouter);
 
 const server = http.createServer(app);
 const io = require('socket.io').listen(server, {
@@ -36,23 +30,12 @@ const io = require('socket.io').listen(server, {
 });
 app.use(webSocket.useSocket(io));
 
-app.use('/api/auth', routerAuth);
-app.use('/api/whoami', routerWhoAmI);
-
-io.on('connection', socket => {
+io.on('connection', socket => { 
   console.log('user connected');
   app.use(authChecker);
-  app.use('/api/channels', routerChannels);
-  app.use('/api/messages', routerMessages);
+  app.use('/api/channels', channelsRouter);
+  app.use('/api/messages', messagesRouter);
   
-  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'web-app', 'build', 'index.html'), (err) => {
-      if (err) {
-        res.status(500).send(err)
-      }
-    })
-  })
-
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'web-app', 'build', 'index.html'), (err) => {
       if (err) {
@@ -66,8 +49,4 @@ io.on('connection', socket => {
   });
 });
 
-const port = process.env.PORT;
-
-server.listen(port, '0.0.0.0', function() {
-  console.log(`Example app listening on port ${port}!`);
-});
+module.exports = server;
