@@ -30,12 +30,12 @@ const io = require('socket.io').listen(server, {
 });
 app.use(webSocket.useSocket(io));
 
-io.on('connection', socket => { 
+io.on('connection', socket => {
   console.log('user connected');
   app.use(authChecker);
   app.use('/api/channels', channelsRouter);
   app.use('/api/messages', messagesRouter);
-  
+
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'web-app', 'build', 'index.html'), (err) => {
       if (err) {
@@ -44,7 +44,7 @@ io.on('connection', socket => {
     })
   })
 
-  socket.on('disconnect', function() {
+  socket.on('disconnect', function () {
     console.log('user disconnected');
   });
 });

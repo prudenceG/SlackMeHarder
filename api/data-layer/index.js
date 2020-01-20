@@ -50,7 +50,7 @@ const getMessageByChannel = async id => {
       ORDER BY message.created_at`,
       [id]
     );
-    
+
     return messagesList.rows;
   } catch (error) {
     throw new Error(error);
@@ -62,7 +62,7 @@ const getOneMessage = async id => {
     const message = await pool.query(
       `SELECT * FROM message WHERE id = $1`, [id]
     );
-  
+
     return message.rows[0];
   } catch (error) {
     throw new Error(error);
@@ -74,7 +74,7 @@ const updateOneMessage = async (content, id) => {
     await pool.query(
       `UPDATE message SET content = $1 WHERE id = $2`, [content, id]
     );
-  } catch(error) {
+  } catch (error) {
     throw new Error(error);
   }
 }
@@ -93,10 +93,12 @@ const deleteOneMessage = async (id) => {
 
 const createUser = async (username, password) => {
   try {
-    await pool.query(
-      `INSERT INTO app_user (username, password) VALUES ($1, crypt($2, gen_salt('bf')))`,
+    const user = await pool.query(
+      `INSERT INTO app_user (username, password) VALUES ($1, crypt($2, gen_salt('bf'))) RETURNING *`,
       [username, password]
     );
+
+    return user.rows[0];
   } catch (error) {
     throw new Error(error);
   }
@@ -173,7 +175,7 @@ const findSessionById = async sessionId => {
       `SELECT * FROM user_session WHERE sessionId=$1`,
       [sessionId]
     );
-  
+
     return session.rows[0];
   } catch (error) {
     throw new Error(error);
