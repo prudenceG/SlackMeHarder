@@ -14,7 +14,6 @@
 
 import React from 'react';
 import * as apiServices from '../../data/services/api';
-// import { fetchMessages } from '../../data/services/api';
 import Messages from './Messages';
 import { shallow, mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
@@ -70,21 +69,6 @@ const addMessageToList = [
 apiServices.fetchMessages = jest.fn();
 
 describe('Messages', () => {
-  // apiServices.fetchMessages = jest.fn();
-  // apiServices.fetchMessages = jest
-  //   .fn()
-  //   .mockImplementation(() => Promise.resolve(messagesList))
-  //   .mockImplementation(() => Promise.resolve(addMessageToList));
-
-  // apiServices.fetchMessages = jest
-  //   .fn()
-  //   .mockReturnValueOnce(Promise.resolve(messagesList));
-
-  // const myMockFn = jest
-  //   .fn()
-  //   .mockImplementationOnce(() => Promise.resolve(messagesList))
-  //   .mockImplementationOnce(() => 'second call');
-
   describe('before messages are fetched', () => {
     let wrapper = shallow(<Messages match={{ params: { id: 1 } }} />);
     it('renders empty messages list', () => {
@@ -93,16 +77,9 @@ describe('Messages', () => {
   });
 
   describe('after messages are fetched', () => {
-    // beforeEach(() => {
-    //   apiServices.fetchMessages = jest.fn(() => {
-    //     Promise.resolve(messagesList);
-    //   });
-    // });
-    // apiServices.fetchMessages;
     apiServices.fetchMessages.mockImplementationOnce(() =>
       Promise.resolve(messagesList)
     );
-    // .mockImplementationOnce(() => Promise.resolve(messagesList));
 
     it('renders messages list', () => {
       act(() => {
@@ -119,17 +96,6 @@ describe('Messages', () => {
   });
 
   describe('when user send a message by clicking on submit button', () => {
-    // beforeEach(() => {
-    //   apiServices.fetchMessages = jest.fn(() => {
-    //     Promise.resolve(addMessageToList);
-    //   });
-    // });
-    // apiServices.fetchMessages = jest.fn(() =>
-    //   Promise.resolve(addMessageToList)
-    // );
-    // apiServices.fetchMessages = second;
-    // apiServices.fetchMessages;
-
     apiServices.fetchMessages.mockImplementationOnce(() =>
       Promise.resolve(addMessageToList)
     );
