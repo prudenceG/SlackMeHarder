@@ -1,17 +1,3 @@
-// jest.mock('../../data/services/api', () => ({
-//   fetchMessages: jest.fn(),
-// }));
-
-// Est-ce que le composant reçoit bien la liste des messages et l'affiche? oui
-// test si la valeur par défaut du state messages est correcte, si messages est vide [] avant le fetch et que rien ne s'affiche dans le composant oui
-// test si messages est rempli après le fetch et que le composant affiche bien un résultat oui
-
-// test le cas si le composant est rendu sans crash
-// test si quand je clique sur le bouton envoyer il y a bien mon nouveau message qui s'ajoute à la liste
-// test si mon contentValue a bien la bonne valeur par défault
-// test si je saisi un caractère la valeur du state contentValue change bien
-// Est-ce que l'affichage se fait bien ou non en fonction de isUsernameAndHourNeedToBeDisplayeds ?
-
 import React from 'react';
 import * as apiServices from '../../data/services/api';
 import Messages from './Messages';

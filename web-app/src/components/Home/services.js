@@ -31,11 +31,11 @@ export const useChannels = () => {
 
   const _checkAuth = async () => {
     await whoAmI()
-      .then(function(response) {
+      .then((response) => {
         setUser(response);
         setShouldTriggerAuth(false);
       })
-      .catch(function(error) {
+      .catch((error) => {
         if (error.response.data === 'User not found') {
           setShouldTriggerAuth(true);
         }
