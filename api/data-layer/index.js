@@ -50,6 +50,7 @@ const getMessageByChannel = async id => {
       ORDER BY message.created_at`,
       [id]
     );
+    
     return messagesList.rows;
   } catch (error) {
     throw new Error(error);

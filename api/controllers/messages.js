@@ -11,7 +11,7 @@ const getMessagesByChannel = async (req, res) => {
 }
 
 const storeMessage = async (req, res) => {
-  const { content, channelId} = req.body;
+  const { content, channelId } = req.body;
   const sessionId = req.cookies.sessionId;
   const socket = req.socket;
   try {
