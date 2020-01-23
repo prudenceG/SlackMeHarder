@@ -48,7 +48,6 @@ export const useMessages = (id, ref) => {
       behavior: 'smooth',
       block: 'start',
     };
-    console.log(refToScroll.current.scrollIntoView)
     isSmoothly ? refToScroll.current.scrollIntoView(options) : refToScroll.current.scrollIntoView();
   }
 
