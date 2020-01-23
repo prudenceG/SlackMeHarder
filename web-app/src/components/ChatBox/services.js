@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 
-import { 
+import {
   fetchMessages,
   postMessages,
   putMessage,
@@ -26,7 +26,7 @@ export const useMessages = (id, ref) => {
   const _fetchMessages = async channelId => {
     setMessages(await fetchMessages(channelId));
   };
-  
+
   const _getLiveMessages = (socket, channelId) => {
     socket.on('sendMessageToClient', async data => {
       await _fetchMessages(channelId);
@@ -48,15 +48,16 @@ export const useMessages = (id, ref) => {
       behavior: 'smooth',
       block: 'start',
     };
+    console.log(refToScroll.current.scrollIntoView)
     isSmoothly ? refToScroll.current.scrollIntoView(options) : refToScroll.current.scrollIntoView();
   }
 
   const updateMessage = async (message) => {
-    await putMessage({...message, content: updateContentValue});
+    await putMessage({ ...message, content: updateContentValue });
   }
 
   const deleteMessage = async id => {
-      await deleteOneMessage(id);
+    await deleteOneMessage(id);
   }
 
   const _getUser = async () => {
@@ -76,9 +77,9 @@ export const useMessages = (id, ref) => {
     return () => {
       socket.disconnect();
     };
-  }, [id]);
+  }, [id, ref, channelId]);
 
-  return { 
+  return {
     messages,
     createMessage,
     contentValue,

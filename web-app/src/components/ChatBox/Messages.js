@@ -27,7 +27,7 @@ function Messages(props) {
     setUpdateContentValue,
     deleteMessage,
   } = useMessages(props.match.params.id, messagesListEnd);
-  
+
   const _createNewMessage = async (e) => {
     e.preventDefault();
     await createMessage();
@@ -44,11 +44,11 @@ function Messages(props) {
     setIsEditMode(!isEditMode);
     setMessageIdToUpdate(message.id);
 
-    if(isEditMode && messageIdToUpdate !== message.id) {
+    if (isEditMode && messageIdToUpdate !== message.id) {
       setIsEditMode(true);
     }
 
-    if(isEditMode && messageIdToUpdate === message.id) {
+    if (isEditMode && messageIdToUpdate === message.id) {
       await updateMessage(message)
       setIsEditMode(false);
     }
@@ -57,7 +57,7 @@ function Messages(props) {
   const _setUpdateContentValue = e => {
     setUpdateContentValue(e.target.value)
   }
-  
+
   const getIcon = (messageId) => {
     return isEditMode ? messageId === messageIdToUpdate ? greenCheck : blueGreenPencil : blueGreenPencil;
   }
@@ -68,44 +68,53 @@ function Messages(props) {
         {messages &&
           messages.map((message, index) => (
             <div className="container__message" key={message.id}>
-
               {isUsernameAndHourNeedToBeDisplayed(
                 index - 1,
                 message,
                 messages
               ) && (
-                <div className="username__message">
-                  <p className="username">{message.username}</p>
-                  <p className="hour">{formatHour(message.updated_at)}</p>
-                </div>
-              )}
+                  <div className="username__message">
+                    <p className="username">{message.username}</p>
+                    <p className="hour">{formatHour(message.updated_at)}</p>
+                  </div>
+                )}
               <div className="content__options__message">
                 <div className="content__message">
-                  {user && user.id === message.userId && isEditMode && messageIdToUpdate === message.id ? (
-                    <input className="input__message" value={updateContentValue} onChange={_setUpdateContentValue}/>
-                  ) : (
-                    <p className="text_message">{message.content}</p>
-                  )}
+                  {user &&
+                    user.id === message.userId &&
+                    isEditMode &&
+                    messageIdToUpdate === message.id ? (
+                      <input
+                        className="input__message"
+                        value={updateContentValue}
+                        onChange={_setUpdateContentValue}
+                      />
+                    ) : (
+                      <p className="text_message">{message.content}</p>
+                    )
+                  }
                 </div>
 
-                {user && user.id === message.userId && 
+                {user &&
+                  user.id === message.userId &&
                   <div className="update__delete__container">
-                    <input 
-                      className="update__message" 
+                    <input
+                      className="update__message"
                       type="image"
+                      alt="update message pen icon and validate icon"
                       src={getIcon(message.id)}
                       onClick={() => _updateMyMessage(message)}
                     />
                     <input
                       className="delete__message"
                       type="image"
+                      alt="delete message trash icon"
                       src={redTrash}
                       onClick={() => deleteMessage(message.id)}
                     />
                   </div>
                 }
               </div>
-
             </div>
           ))}
         <div ref={messagesListEnd}></div>

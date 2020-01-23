@@ -1,6 +1,6 @@
 const isUsernameAndHourNeedToBeDisplayed = (index, message, messages) => {
   if (index >= 0) {
-    return messages[index].username === message.username &&
+    return messages[index].userId === message.userId &&
       formatHour(messages[index].updated_at) === formatHour(message.updated_at)
       ? false
       : true;
@@ -18,6 +18,7 @@ const formatHour = date => {
     formatMinutes = `0${minutes}`;
     return `${hours}:${formatMinutes}`;
   }
+
   return `${hours}:${minutes}`;
 };
 

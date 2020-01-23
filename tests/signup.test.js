@@ -21,20 +21,20 @@ describe('AuthRouter', () => {
 			created_at: '2020-01-19 21:34:48.013542',
 			updated_at: '2020-01-19 21:34:48.013542'
 		}
-
+		dataLayer.createSession = jest.fn();
 		dataLayer.findUserByUsername = jest.fn();
 		dataLayer.findSessionById = jest.fn(() => Promise.resolve(undefined))
 		describe('when new user has been successfully created', () => {
 			let fullCookie;
 			let response;
-			beforeEach(async () => {
+			beforeEach(async (done) => {
 				dataLayer.findUserByUsername.mockImplementationOnce(() => {
 					return Promise.resolve(undefined);
 				})
 				dataLayer.createUser = jest.fn(() => Promise.resolve(userCreated));
 				dataLayer.updateSession = jest.fn(() => Promise.resolve());
-				await agent.get('/api/auth/whoami').send()
-				response = await agent
+				await request(app).get('/api/auth/whoami').send()
+				response = await request(app)
 					.post('/api/auth/signup')
 					.send({
 						username: 'Prudence',
@@ -42,6 +42,7 @@ describe('AuthRouter', () => {
 					})
 					;
 				fullCookie = cookie.parse(response.request.cookies);
+				done()
 			})
 
 			it('should responds with success', () => {
@@ -71,7 +72,7 @@ describe('AuthRouter', () => {
 				})
 
 				it('should throw an error Username already taken', async () => {
-					response = await agent
+					response = await request(app)
 						.post('/api/auth/signup')
 						.send({
 							username: 'Valentin',
@@ -92,7 +93,7 @@ describe('AuthRouter', () => {
 					})
 					dataLayer.createUser = jest.fn(() => Promise.reject(new Error('User can not be created')));
 
-					response = await agent
+					response = await request(app)
 						.post('/api/auth/signup')
 						.send({
 							username: 'Valentin',

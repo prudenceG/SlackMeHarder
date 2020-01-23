@@ -5,14 +5,8 @@ import { fetchChannels, createChannel, whoAmI } from '../../data/services/api';
 
 export const useChannels = () => {
   const [channels, setChannels] = useState([]);
-
-  const [
-    shouldPromptModalCreateChannel,
-    setShouldPromptModalCreateChannel,
-  ] = useState(false);
-
+  const [shouldPromptModalCreateChannel, setShouldPromptModalCreateChannel] = useState(false);
   const [currentNewChannelName, setCurrentNewChannelName] = useState('');
-
   const [shouldTriggerAuth, setShouldTriggerAuth] = useState(false);
   const [user, setUser] = useState({});
 

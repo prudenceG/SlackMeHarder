@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd web-app && npm test",
+    "test": "jest ./tests && cd web-app && npm test",
     "start": "nodemon index.js",
     "migration:create": "npx db-migrate create",
     "migration:run": "npx db-migrate up --config db-migrate-config.js --env pg",
