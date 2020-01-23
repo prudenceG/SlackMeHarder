@@ -1,6 +1,5 @@
 const request = require('supertest');
 const app = require('../server');
-const agent = request.agent(app);
 const dataLayer = require('../api/data-layer');
 const cookie = require('cookie');
 
@@ -21,9 +20,11 @@ describe('AuthRouter', () => {
 			created_at: '2020-01-19 21:34:48.013542',
 			updated_at: '2020-01-19 21:34:48.013542'
 		}
+
 		dataLayer.createSession = jest.fn();
 		dataLayer.findUserByUsername = jest.fn();
-		dataLayer.findSessionById = jest.fn(() => Promise.resolve(undefined))
+		dataLayer.findSessionById = jest.fn(() => Promise.resolve(undefined));
+
 		describe('when new user has been successfully created', () => {
 			let fullCookie;
 			let response;
@@ -91,7 +92,8 @@ describe('AuthRouter', () => {
 					dataLayer.findUserByUsername.mockImplementationOnce(() => {
 						return Promise.resolve(undefined);
 					})
-					dataLayer.createUser = jest.fn(() => Promise.reject(new Error('User can not be created')));
+					dataLayer.createUser = jest.fn(() =>
+						Promise.reject(new Error('User can not be created')));
 
 					response = await request(app)
 						.post('/api/auth/signup')
