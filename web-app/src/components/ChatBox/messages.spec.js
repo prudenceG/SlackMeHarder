@@ -2,7 +2,6 @@ import React from 'react';
 import * as apiServices from '../../data/services/api';
 import Messages from './Messages';
 import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 
 const messagesList = [
   {
@@ -69,11 +68,9 @@ describe('Messages', () => {
     );
     it('renders empty messages list', () => {
       let wrapper;
-      // act(() => {
       wrapper = mount(<Messages match={{ params: { id: 1 } }} />);
       expect(wrapper.find('.container__message')).toHaveLength(0);
     })
-    // });
   });
 
   describe('after messages are fetched', () => {
@@ -82,9 +79,7 @@ describe('Messages', () => {
     );
 
     it('renders messages list', () => {
-      // act(() => {
       let wrapper = mount(<Messages match={{ params: { id: 1 } }} />);
-      // });
       setImmediate(() => {
         wrapper.update();
         expect(apiServices.fetchMessages).toHaveBeenCalled();
@@ -102,7 +97,6 @@ describe('Messages', () => {
     );
 
     it('renders a new item in the messages list', () => {
-      // act(() => {
       let wrapper = mount(<Messages match={{ params: { id: 1 } }} />);
       // const button = wrapper.find('.button__chat__sendbox');
       // await button.simulate('click');
@@ -114,9 +108,6 @@ describe('Messages', () => {
           messagesList.length + 1
         );
       });
-      // });
     });
   });
-
-
 });

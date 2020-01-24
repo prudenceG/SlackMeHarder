@@ -1,7 +1,6 @@
 import React from 'react';
 import Messages from './Messages';
 import * as apiServices from '../../data/services/api';
-import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
 
 const sameUserMoreOneMinuteBetweenMessages = [
@@ -75,7 +74,6 @@ describe('Messages', () => {
       );
 
       it('should not exists', () => {
-        // act(() => {
         let wrapper = mount(<Messages match={{ params: { id: 1 } }} />)
         const lengths = [2, 1]
         setImmediate(() => {
@@ -84,7 +82,6 @@ describe('Messages', () => {
             expect(node.children()).toHaveLength(lengths[i])
           })
         })
-        // })
       })
     })
 
@@ -95,7 +92,6 @@ describe('Messages', () => {
       );
 
       it('should exists', () => {
-        // act(() => {
         let wrapper = mount(<Messages match={{ params: { id: 1 } }} />)
         const lengths = [2, 2]
         setImmediate(() => {
@@ -104,7 +100,6 @@ describe('Messages', () => {
             expect(node.children()).toHaveLength(lengths[i])
           })
         })
-        // })
       })
     })
 
@@ -114,7 +109,6 @@ describe('Messages', () => {
         Promise.resolve(otherUserMessages);
       })
       it('should exists', () => {
-        // act(() => {
         let wrapper = mount(<Messages match={{ params: { id: 1 } }} />)
         const lengths = [2, 2, 2]
         setImmediate(() => {
@@ -123,7 +117,6 @@ describe('Messages', () => {
             expect(node.children()).toHaveLength(lengths[i])
           })
         })
-        // })
       })
     })
   })
