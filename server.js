@@ -36,7 +36,7 @@ io.on('connection', socket => {
   app.use('/api/channels', channelsRouter);
   app.use('/api/messages', messagesRouter);
 
-  app.get('/*', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'web-app', 'build', 'index.html'), (err) => {
       if (err) {
         res.status(500).send(err)
