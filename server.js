@@ -12,7 +12,7 @@ const channelsRouter = require('./api/routes/channels');
 const messagesRouter = require('./api/routes/messages');
 
 const app = express();
-// app.use(express.static(path.join(__dirname, 'web-app', 'build')));
+app.use(express.static(path.join(__dirname, 'web-app', 'build')));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(
