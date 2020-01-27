@@ -29,12 +29,13 @@ const storeMessage = async (content, channelId, sessionId, socket) => {
     return message;
 }
 
-const updateMessage = async (id, message, sessionId, socket) => {
+const updateMessage = async (id, content, sessionId, socket) => {
     const session = await dataLayer.findSessionById(sessionId);
+    const messageToUpdate = await dataLayer.getOneMessage(id)
 
-    if (message.userId === session.user_id) {
-        await dataLayer.updateOneMessage(message.content, id);
-        webSocket.notifyClientMessageHasBeenUpdated(socket, message.content);
+    if (messageToUpdate.app_user_id === session.user_id) {
+        await dataLayer.updateOneMessage(content, id);
+        webSocket.notifyClientMessageHasBeenUpdated(socket, content);
     } else {
         throw new Error('Unhautorized');
     }

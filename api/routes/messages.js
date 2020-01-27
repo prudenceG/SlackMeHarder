@@ -18,7 +18,7 @@ router.post('/', expressValidation.validate([
 ]), messagesController.storeMessage);
 
 router.put('/:id', expressValidation.validate([
-  body('message')
+  body('content')
     .not().isEmpty().withMessage('must be filled')
     .isLength({ max: 1500 }).withMessage('must be 1500 characters maximum')
     .trim()

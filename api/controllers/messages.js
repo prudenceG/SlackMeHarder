@@ -24,12 +24,12 @@ const storeMessage = async (req, res) => {
 };
 
 const updateMessage = async (req, res) => {
-  const message = req.body.message;
+  const content = req.body.content;
   const id = req.params.id;
   const sessionId = req.cookies.sessionId;
   const socket = req.socket;
   try {
-    await messagesService.updateMessage(id, message, sessionId, socket);
+    await messagesService.updateMessage(id, content, sessionId, socket);
     res.status(201).send('a message has been updated');
   } catch (error) {
     res.status(400).json({ message: error.message });
