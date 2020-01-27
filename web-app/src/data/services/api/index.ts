@@ -30,7 +30,7 @@ export const postMessages = async (content: string, channelId: number): Promise<
 };
 
 export const putMessage = async (message: any): Promise<void> => {
-  await axios.put(`/api/messages/${message.id}`, {message});
+  await axios.put(`/api/messages/${message.id}`, { content: message.content });
 }
 
 export const deleteOneMessage = async (id: number): Promise<void> => {

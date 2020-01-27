@@ -49,7 +49,7 @@ function Messages(props) {
     }
 
     if (isEditMode && messageIdToUpdate === message.id) {
-      await updateMessage(message)
+      await updateMessage()
       setIsEditMode(false);
     }
   }

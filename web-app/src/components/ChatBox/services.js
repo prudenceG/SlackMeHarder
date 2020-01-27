@@ -51,8 +51,8 @@ export const useMessages = (id, ref) => {
     isSmoothly ? refToScroll.current.scrollIntoView(options) : refToScroll.current.scrollIntoView();
   }
 
-  const updateMessage = async (message) => {
-    await putMessage({ ...message, content: updateContentValue });
+  const updateMessage = async () => {
+    await putMessage({ id: messageIdToUpdate, content: updateContentValue });
   }
 
   const deleteMessage = async id => {
