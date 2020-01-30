@@ -66,7 +66,7 @@ describe('Messages', () => {
   apiServices.fetchMessages = jest.fn();
   apiServices.whoAmI = jest.fn();
 
-  describe('Username and hour bloc in the posted message', () => {
+  describe('Username and hour bloc', () => {
     describe('when the last message is published by the same user\
     and less than a minute apart', () => {
       apiServices.fetchMessages.mockImplementationOnce(() =>
