@@ -16,8 +16,8 @@ const storeMessage = async (req, res) => {
   const socket = req.socket;
 
   try {
-    await messagesService.storeMessage(content, channelId, sessionId, socket);
-    res.status(201).send({ message: 'Message has been successfuly created' });
+    const message = await messagesService.storeMessage(content, channelId, sessionId, socket);
+    res.status(201).send(message);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

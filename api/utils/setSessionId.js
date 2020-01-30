@@ -8,8 +8,8 @@ const setSessionId = async (req, res, next) => {
     const sessionExists = await dataLayer.findSessionById(sessionId);
     if (!sessionExists) {
       await dataLayer.createSession(sessionId, null);
+      res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true, sameSite: "lax" });
     }
-    res.cookie('sessionId', sessionId, { maxAge: 999900000, httpOnly: true, sameSite: "lax" });
   } else {
     console.log('cookie exists', cookie);
   }

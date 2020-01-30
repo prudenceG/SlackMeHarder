@@ -26,7 +26,8 @@ export const fetchMessages = async (id: number): Promise<Message[]> => {
 
 export const postMessages = async (content: string, channelId: number): Promise<void> => {
   const data = { content, channelId };
-  await axios.post(`/api/messages`, data);
+  const response = await axios.post(`/api/messages`, data);
+  console.log(response.data);
 };
 
 export const putMessage = async (message: any): Promise<void> => {
