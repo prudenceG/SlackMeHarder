@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 import './index.css';
 import Home from './components/Home';
 import * as serviceWorker from './serviceWorker';
@@ -8,9 +10,11 @@ import { BrowserRouter } from 'react-router-dom';
 require('dotenv').config();
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Home />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Home />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
